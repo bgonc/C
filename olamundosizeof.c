@@ -1,19 +1,17 @@
 #include <stdio.h>
 
 int main()
-{
-	printf("Olá Mundo!\n\n");
-	printf("sizeof(char): %d\n", sizeof(char));
-	printf("sizeof(short): %d\n", sizeof(short));
-	printf("sizeof(int): %d\n", sizeof(int));
-	printf("sizeof(long): %d\n", sizeof(long));
-	printf("sizeof(long long): %d\n", sizeof(long long));
-	printf("sizeof(float): %d\n", sizeof(float));
-	printf("sizeof(double): %d\n", sizeof(double));
-	printf("sizeof(long double): %d\n\n", sizeof(long double)); 
 
-/* calcular a soma dos tamanhos */
-	
-	printf("O total dos tamanhos é %d\n", sizeof(char) + sizeof(short) + sizeof(int) + sizeof(long) + sizeof(long long) + sizeof(float) + sizeof(double) + sizeof(long double));
-	
+{
+    printf("Olá Mundo!");
+    printf("\nsizeof(char): %zu", sizeof(char));
+    printf("\nsizeof(short): %zu", sizeof(short));
+    printf("\nsizeof(int): %zu", sizeof(int));
+    printf("\nsizeof(long): %zu", sizeof(long));
+    printf("\nsizeof(long long): %zu", sizeof(long long));
+    printf("\nsizeof(float): %zu", sizeof(float));
+    printf("\nsizeof(double): %zu", sizeof(double));
+    printf("\nsizeof(double long): %zu", sizeof(long double));
+
+    printf("\nO total é %zu", sizeof(short)+sizeof(int)+sizeof(long)+sizeof(long long)+sizeof(float)+sizeof(double)+sizeof(long double));
 }
