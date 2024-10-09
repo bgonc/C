@@ -28,10 +28,7 @@ int main()
             }
             printf("Resultado=%d\n", aux);
         }
-
     else
     
         printf("Erro: N tem de ser maior que R e este maior que 0.");
-        
-    
 }
