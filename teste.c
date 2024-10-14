@@ -1,22 +1,31 @@
 #include <stdio.h>
 
 int main()
+
 {
+    int n;
+    int r;
+    int i;
+    int a;
 
-    int h;
-    int m;
-    int s;
-    int hms;
+    printf("Calculo dos arranjos de N, R a R:\n");
+    printf("Indique N: ");
+    scanf("%d", &n);
+    printf("Indique R: ");
+    scanf("%d", &r);
 
-    printf("Calculo do numero de segundos desde o inicio do dia.\n");
-    printf("hora\n");
-    scanf("%d", &h);
-    printf("minuto\n");
-    scanf("%d", &m);
-    printf("segundo\n");
-    scanf("%d", &s);
+    i=n-r+1;
+    a=1;
 
-    hms=(((h*60)*60)+(m*60)+s);
+    while(i<=n)
+    {    
+        a*=i;
 
-    printf("Total: %d", hms);
+        printf("i=%d; arranjos=%d\n", i, a);
+        i++;
+
+    }
+    printf("Resultado=%d\n", a);
+
+
 }
