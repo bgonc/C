@@ -1,1 +1,1 @@
-printf("Resultado=%d\n", aux);
+
