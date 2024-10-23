@@ -3,30 +3,27 @@
 void main()
 {
     int K;
-    int soma;
-    int i = 1;
-    int fib1 = 1;
-    int fib2 = 2;
-
+    int soma = 0;
+    int fib1 = 0;
+    int fib2 = 1;
+    int i = 0;
 
     scanf("%d", &K);
 
-    while (i < K)
+    while(fib2 < K)
     {
-        soma = fib1 + fib2;
-        printf("%d\n", soma);
+        
+        i = fib1 + fib2;
+
+        if(fib2 % 2 == 0)
+        {
+            soma+=fib2;
+        }
 
         fib1 = fib2;
-        fib2 = soma;
-
-        i++;
+        fib2 = i;
 
     }
-    
 
-
-
-
-
-    //printf("%d",soma);
+    printf("%d",soma);
 }

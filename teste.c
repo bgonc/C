@@ -3,20 +3,21 @@
 int main()
 
 {
-    int n;
-    int i=1;
+    double n = 1;
+    double f = 1;
+    int k;
+    int i = 1;
 
-    printf("Funcao que verifica se um numero N e' primo\nIndique N:\n");
-    scanf("%d", n);
+    printf("indique K: ");
+    scanf("%d", &k);
 
-    while(i<=n)
+    while (i <= k)
     {
-        n-=i;
+        f *= i;
+        n += 1 / f;
 
-        printf("%d", i);
+        printf("%d: %.16g\n", i, n);
 
         i++;
-
     }
-
 }
