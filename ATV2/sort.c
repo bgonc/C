@@ -10,6 +10,7 @@ void PrintInts(int v[], int n)
 {
   for (int i = 0; i < n; i++)
     printf("%d ", v[i]);
+  printf("\n");
 }
 
 void Sort(int v[], int n)
@@ -41,8 +42,6 @@ int main()
     v[i] = randaux() % n;
 
   PrintInts(v, 10);
-
-  printf("\n");
 
   Sort(v, 1000);
 
