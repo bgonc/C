@@ -1,61 +1,43 @@
 #include <stdio.h>
 
-unsigned int randaux()
+void trocos(double m)
 {
-    static long seed = 1;
-    seed = seed * 214013L + 2531011L;
-    return ((seed >> 16) & 0x7fff);
-}
+    // Vetor com os valores das moedas em centimos
+    int v[8] = {200, 100, 50, 20, 10, 5, 2, 1};
 
-void PrintInts(int v[], int n, const char* sep)
-{
-    for (int i = 0; i < n; i++)
-    {
-        printf("%d", v[i]);
-        if (i < n - 1)
-            printf(" ");
-    }
-    printf("%s", n);
-}
-
-void Sort(int v[], int n)
-{
-    for (int i = 0; i < n - 1; i++)
-    {
-        // Compare with all subsequent elements
-        for (int j = i + 1; j < n; j++)
+    // Vetor com as descrições das moedas
+    const char *descricao[8] =
         {
-            if (v[i] > v[j])
-            {
-                // Swap elements if they are in reverse order
-                int temp = v[i];
-                v[i] = v[j];
-                v[j] = temp;
-            }
+            "2 euros", "1 euro", "50 centimos", "20 centimos",
+            "10 centimos", "5 centimos", "2 centimos", "1 centimo"};
+
+    // Converte o montante para centimos
+    int c = (int)(m * 100 + 0.5);
+
+    // Itera pelas moedas
+    for (int i = 0; i < 8; i++)
+    {
+        int moeda = c / v[i]; // Calcula a quantidade de moedas
+        if (moeda > 0)
+        {
+            // Imprime a descrição da moeda e a quantidade
+            printf("%s: %d\n", descricao[i], moeda);
+            c = c % v[i]; // Atualiza o montante restante
         }
     }
 }
 
 int main()
 {
-    int v[1000], i, n;
+    double m;
 
-    // Read the maximum random number
-    scanf("%d", &n);
-    n++;
+    // Lê o montante
+    printf("Introduza um montante em euros, podendo ter centimos: ");
+    scanf("%lf", &m);
 
-    // Fill the array with random numbers from 0 to N
-    for (i = 0; i < 1000; i++)
-        v[i] = randaux() % n;
-
-    // Print the first 10 numbers before sorting
-    PrintInts(v, 10, "\n");
-
-    // Sort the array
-    Sort(v, 1000);
-
-    // Print the first 10 numbers after sorting
-    PrintInts(v, 10, "\n");
+    // Chama a função para calcular os trocos
+    trocos(m);
 
     return 0;
 }
+

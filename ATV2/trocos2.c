@@ -1,67 +1,32 @@
 #include <stdio.h>
 
-int main() {
-    double m;
-    int c;
-    int moeda;
+void trocos(double m)
+{
+    int v[8] = {200, 100, 50, 20, 10, 5, 2, 1};
 
-    printf("Introduza um montante em euros, podendo ter centimos: ");
+    const char *descricao[8] =
+        {
+            "2 euros", "1 euro", "50 centimos", "20 centimos",
+            "10 centimos", "5 centimos", "2 centimos", "1 centimo"};
+
+    int c = (int)(m * 100 + 0.5);
+
+    for (int i = 0; i < 8; i++)
+    {
+        int moeda = c / v[i];
+        if (moeda > 0)
+        {
+            printf("%s: %d\n", descricao[i], moeda);
+            c = c % v[i];
+        }
+    }
+}
+
+int main()
+{
+    double m;
+
     scanf("%lf", &m);
 
-    c = (int)(m * 100 + 0.5);
-
-    moeda = c / 200;
-
-    if (moeda > 0) {
-        printf("2 euros: %d\n", moeda);
-    }
-    c = c % 200;
-
-    moeda = c / 100;
-
-    if (moeda > 0) {
-        printf("1 euro: %d\n", moeda);
-    }
-    c = c % 100;
-
-    moeda = c / 50;
-
-    if (moeda > 0) {
-        printf("50 centimos: %d\n", moeda);
-    }
-    c = c % 50;
-
-    moeda = c / 20;
-
-    if (moeda > 0) {
-        printf("20 centimos: %d\n", moeda);
-    }
-    c = c % 20;
-
-    moeda = c / 10;
-
-    if (moeda > 0) {
-        printf("10 centimos: %d\n", moeda);
-    }
-    c = c % 10;
-
-    moeda = c / 5;
-
-    if (moeda > 0) {
-        printf("5 centimos: %d\n", moeda);
-    }
-    c = c % 5;
-
-    moeda = c / 2;
-
-    if (moeda > 0) {
-        printf("2 centimos: %d\n", moeda);
-    }
-    c = c % 2;
-
-    moeda = c / 1;
-
-    if (moeda > 0) {
-        printf("1 centimo: %d\n", moeda);
-    }
+    trocos(m);
 }
