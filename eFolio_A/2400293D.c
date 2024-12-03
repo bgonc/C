@@ -44,98 +44,51 @@ void imprimir_sequencia(int vetor[], int tamanho, char jogador, int ultima) {
     }
 }
 
-/* Calcula a soma dos números na sequência */
-int calcular_soma(int vetor[], int tamanho) {
-    int soma = 0;
-    for (int i = 0; i < tamanho; i++) {
-        soma += vetor[i];
-    }
-    return soma;
-}
-
-/* Jogador Artificial */
-int jogada_artificial(int vetor[], int *tamanho, int k, int *indice_resultado, int *valor_resultado) {
-    int melhor_indice = -1, melhor_valor = 0;
-    int menor_tamanho = 10000; // Um valor suficientemente grande
-    int soma_atual = calcular_soma(vetor, *tamanho);
-
-    // Iterar sobre os índices
-    for (int i = 0; i < *tamanho; i++) {
-        int valor_atual = vetor[i];
-
-        // Testar remoção ou redução
-        for (int v = 0; v < valor_atual; v++) {
-            vetor[i] = v;
-            if (verificar_sequencia(k, vetor, *tamanho)) {
-                if (verificar_vitoria(k, vetor, *tamanho)) {
-                    *indice_resultado = i;
-                    *valor_resultado = v;
-                    vetor[i] = valor_atual;
-                    return 1; // Vitória encontrada
-                }
-                if (*tamanho < menor_tamanho) {
-                    melhor_indice = i;
-                    melhor_valor = v;
-                    menor_tamanho = *tamanho;
-                }
+/* Processa uma jogada */
+int processar_jogada(int vetor[], int *tamanho, int indice, int valor, int k) {
+    if (valor == 0) {
+        // Remover elemento
+        if (indice < *tamanho) {
+            for (int i = indice; i < *tamanho - 1; i++) {
+                vetor[i] = vetor[i + 1];
             }
-            vetor[i] = valor_atual; // Restaurar o valor original
+            (*tamanho)--;
+        } else {
+            return 0; // Jogada inválida
         }
-
-        // Testar incremento
-        for (int v = valor_atual + 1; v <= valor_atual + (k - soma_atual); v++) {
-            vetor[i] = v;
-            if (verificar_sequencia(k, vetor, *tamanho)) {
-                if (verificar_vitoria(k, vetor, *tamanho)) {
-                    *indice_resultado = i;
-                    *valor_resultado = v;
-                    vetor[i] = valor_atual;
-                    return 1; // Vitória encontrada
-                }
-                if (*tamanho < menor_tamanho) {
-                    melhor_indice = i;
-                    melhor_valor = v;
-                    menor_tamanho = *tamanho;
-                }
-            }
-            vetor[i] = valor_atual; // Restaurar o valor original
-        }
-    }
-
-    // Testar adição de novos números
-    for (int v = -1; v >= -(k - soma_atual); v--) {
-        if (*tamanho < 100) {
-            vetor[*tamanho] = -v;
+    } else if (valor > 0) {
+        // Atualizar valor no índice ou adicionar no final
+        if (indice < *tamanho) {
+            vetor[indice] = valor;
+        } else if (*tamanho < 100) {
+            vetor[*tamanho] = valor;
             (*tamanho)++;
-            if (verificar_sequencia(k, vetor, *tamanho)) {
-                if (verificar_vitoria(k, vetor, *tamanho)) {
-                    *indice_resultado = *tamanho - 1;
-                    *valor_resultado = v;
-                    (*tamanho)--;
-                    return 1; // Vitória encontrada
-                }
-                if (*tamanho < menor_tamanho) {
-                    melhor_indice = *tamanho - 1;
-                    melhor_valor = v;
-                    menor_tamanho = *tamanho;
-                }
+        } else {
+            return 0; // Jogada inválida
+        }
+    } else if (valor < 0) {
+        // Inserir novo número no índice, deslocando para a direita
+        if (indice <= *tamanho && *tamanho < 100) {
+            for (int i = *tamanho; i > indice; i--) {
+                vetor[i] = vetor[i - 1];
             }
-            (*tamanho)--; // Reverter a adição
+            vetor[indice] = -valor;
+            (*tamanho)++;
+        } else {
+            return 0; // Jogada inválida
         }
     }
 
-    // Aplicar a melhor jogada encontrada
-    if (melhor_indice != -1) {
-        *indice_resultado = melhor_indice;
-        *valor_resultado = melhor_valor;
-        return 1;
+    // Verificar se a sequência permanece válida
+    if (!verificar_sequencia(k, vetor, *tamanho)) {
+        return 0; // Sequência inválida
     }
 
-    return 0; // Nenhuma jogada possível
+    return 1; // Jogada válida
 }
 
 int main() {
-    int k, vetor[100], tamanho = 2, jogadas = 0;
+    int k, vetor[100], tamanho = 2, jogadas = 0, max_jogadas;
     char jogador = 'A';
     int indice, valor;
 
@@ -148,31 +101,17 @@ int main() {
 
     vetor[0] = k / 2;
     vetor[1] = k / 2;
+    max_jogadas = k;
 
     imprimir_sequencia(vetor, tamanho, jogador, 0);
 
-    while (jogadas < k) {
+    while (jogadas < max_jogadas) {
         printf("Jogada (indice valor):\n");
         scanf("%d %d", &indice, &valor);
 
-        if (indice == -2 && valor == -2) {
-            int indice_artificial, valor_artificial;
-            if (!jogada_artificial(vetor, &tamanho, k, &indice_artificial, &valor_artificial)) {
-                printf("Jogada artificial: Nenhuma jogada possível. Empate.\n");
-                return 0;
-            }
-            printf("Jogada artificial: %d %d\n", indice_artificial, valor_artificial);
-            vetor[indice_artificial] = valor_artificial;
-        } else if (indice >= 0 && indice < tamanho) {
-            vetor[indice] = valor;
-        } else {
-            printf("Jogada inválida. Jogador %c perdeu.\n", jogador);
-            return 0;
-        }
-
-        if (!verificar_sequencia(k, vetor, tamanho)) {
+        if (!processar_jogada(vetor, &tamanho, indice, valor, k)) {
             imprimir_sequencia(vetor, tamanho, jogador, 1);
-            printf("Jogador %c perdeu.\n", jogador);
+            printf("Jogada inválida. Jogador %c perdeu.\n", jogador);
             return 0;
         }
 
@@ -182,7 +121,10 @@ int main() {
             return 0;
         }
 
-        jogador = (jogador == 'A') ? 'B' : 'A';
+        if (valor >= 0 || indice >= tamanho) {
+            jogador = (jogador == 'A') ? 'B' : 'A';
+        }
+
         imprimir_sequencia(vetor, tamanho, jogador, 0);
         jogadas++;
     }
