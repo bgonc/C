@@ -16,20 +16,20 @@ int validar_K(int k)
 int verificar_sequencia(int k, int vetor[], int tamanho)
 {
     int soma = 0, produto = 1, soma_diferencas = 0;
-    
+
     /* Calcula a soma e o produto da sequência */
     for (int i = 0; i < tamanho; i++)
     {
         soma += vetor[i];
         produto *= vetor[i];
     }
-    
+
     /* Verifica se a sequência é inválida */
     if (soma > k || produto < k)
     {
         return 0; // Sequência inválida
     }
-    
+
     /* Calcula a soma das diferenças absolutas entre todos os pares */
     for (int i = 0; i < tamanho; i++)
     {
@@ -38,7 +38,7 @@ int verificar_sequencia(int k, int vetor[], int tamanho)
             soma_diferencas += abs(vetor[i] - vetor[j]);
         }
     }
-    
+
     /* Determina o tipo de sequência */
     if (soma_diferencas == k)
     {
@@ -47,135 +47,125 @@ int verificar_sequencia(int k, int vetor[], int tamanho)
     return 1; // Sequência válida
 }
 
-/* Gera e imprime a sequência inicial com base em K */
+/* Gera a sequência inicial com base em K */
 void gerar_sequencia_inicial(int k, int sequencia[], int *tamanho)
 {
     sequencia[0] = k / 2;
     sequencia[1] = k / 2;
     *tamanho = 2;
-    printf("Sequencia: %d %d\n", sequencia[0], sequencia[1]);
 }
 
-/* Imprime a sequência atual */
-void imprimir_sequencia(int sequencia[], int tamanho)
+/* Imprime a sequência e o jogador na mesma linha */
+void imprimir_sequencia_e_jogador(int sequencia[], int tamanho, char jogador)
 {
     printf("Sequencia: ");
     for (int i = 0; i < tamanho; i++)
     {
         printf("%d ", sequencia[i]);
     }
-    printf("\n");
+    printf("[Joga %c]\n", jogador);
 }
 
 /* Efetua a jogada de um jogador */
 int efetuar_jogada(int sequencia[], int *tamanho, int indice, int valor, int *manter_jogada)
 {
-    *manter_jogada = 0; // Por padrão, não mantém a jogada
-    
-    if (indice >= *tamanho)
+    if (indice >= *tamanho) // Adicionar no final
     {
-        // Adicionar no final - não mantém a jogada
-        sequencia[*tamanho] = (valor < 0) ? -valor : valor;
+        sequencia[*tamanho] = valor;
         (*tamanho)++;
+        *manter_jogada = 0; // Não mantém a jogada
     }
-    else if (valor == 0 || valor < 0)
+    else if (valor == 0) // Remover o número
     {
-        // Remover ou inserir elemento - mantém a jogada
-        *manter_jogada = 1;
-        
-        if (valor == 0)
+        for (int i = indice; i < *tamanho - 1; i++)
         {
-            // Remover elemento
-            for (int i = indice; i < *tamanho - 1; i++)
-            {
-                sequencia[i] = sequencia[i + 1];
-            }
-            (*tamanho)--;
+            sequencia[i] = sequencia[i + 1];
         }
-        else
-        {
-            // Inserir valor absoluto
-            for (int i = *tamanho; i > indice; i--)
-            {
-                sequencia[i] = sequencia[i - 1];
-            }
-            sequencia[indice] = -valor;
-            (*tamanho)++;
-        }
+        (*tamanho)--;
+        (*manter_jogada)++;
     }
-    else
+    else if (valor < 0) // Inserir -valor
     {
-        // Substituir valor - não mantém a jogada
+        for (int i = *tamanho; i > indice; i--)
+        {
+            sequencia[i] = sequencia[i - 1];
+        }
+        sequencia[indice] = -valor;
+        (*tamanho)++;
+        (*manter_jogada)++;
+    }
+    else // Substituir valor
+    {
         sequencia[indice] = valor;
+        *manter_jogada = 0; // Não mantém a jogada
     }
-    
-    return 1;
+
+    return 1; // Jogada válida
 }
 
 int main()
 {
     int k, sequencia[100], tamanho, jogadas = 0;
     char jogador = 'A';
-    int manter_jogada = 0, contador_jogadas_jogador = 0;
-    
+    int manter_jogada = 0;
+
     printf("Indique K: ");
     scanf("%d", &k);
-    
+
     if (validar_K(k))
     {
         // Gerar sequência inicial
         gerar_sequencia_inicial(k, sequencia, &tamanho);
-        
+
+        // Imprimir sequência inicial e jogador
+        imprimir_sequencia_e_jogador(sequencia, tamanho, jogador);
+
         // Jogo continua até K jogadas
         while (jogadas < k)
         {
             int indice, valor;
-            
-            if (!manter_jogada)
-            {
-                printf("[Joga %c]\n", jogador);
-                contador_jogadas_jogador = 0;
-            }
-            
+
             printf("Jogada (indice valor): ");
             scanf("%d %d", &indice, &valor);
-            
+
             // Efetuar a jogada
-            efetuar_jogada(sequencia, &tamanho, indice, valor, &manter_jogada);
-            
-            // Imprimir nova sequência
-            imprimir_sequencia(sequencia, tamanho);
-            
+            if (!efetuar_jogada(sequencia, &tamanho, indice, valor, &manter_jogada))
+            {
+                printf("Jogador %c perdeu.\n", jogador);
+                return 0;
+            }
+
             // Verificar validade da sequência
             int resultado = verificar_sequencia(k, sequencia, tamanho);
-            
+
             if (resultado == 0)
             {
                 printf("Jogador %c perdeu.\n", jogador);
                 return 0;
             }
-            
+
             if (resultado == 2)
             {
                 printf("Jogador %c venceu.\n", jogador);
                 return 0;
             }
-            
-            // Lógica de manutenção/troca de jogador
-            contador_jogadas_jogador++;
-            
-            if (!manter_jogada || contador_jogadas_jogador >= 2)
+
+            // Imprimir sequência após a jogada
+            imprimir_sequencia_e_jogador(sequencia, tamanho, jogador);
+
+            // Lógica de troca de jogador
+            if (manter_jogada >= 2 || (valor > 0 && indice >= tamanho - 1))
             {
                 jogador = (jogador == 'A') ? 'B' : 'A';
-                manter_jogada = 0;
+                manter_jogada = 0; // Reset ao contador
             }
-            
+
             jogadas++;
         }
-        
+
         // Se chegar a K jogadas sem vitória
         printf("Empate.\n");
     }
-    
+
     return 0;
 }

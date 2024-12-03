@@ -13,7 +13,7 @@ int validar_K(int k)
 }
 
 /* Verifica a sequência fornecida */
-void verificar_sequencia(int k, int vetor[], int tamanho)
+int verificar_sequencia(int k, int vetor[], int tamanho)
 {
     int soma = 0, produto = 1, soma_diferencas = 0;
 
@@ -27,8 +27,7 @@ void verificar_sequencia(int k, int vetor[], int tamanho)
     /* Verifica se a sequência é inválida */
     if (soma > k || produto < k)
     {
-        printf("Sequencia invalida\n");
-        return;
+        return 0; // Sequência inválida
     }
 
     /* Calcula a soma das diferenças absolutas entre todos os pares */
@@ -43,6 +42,20 @@ void verificar_sequencia(int k, int vetor[], int tamanho)
     /* Determina o tipo de sequência */
     if (soma_diferencas == k)
     {
+        return 2; // Sequência de vitória
+    }
+    return 1; // Sequência válida
+}
+
+/* Imprime o resultado com base no tipo da sequência */
+void imprimir_resultado_sequencia(int tipo)
+{
+    if (tipo == -1)
+    {
+        printf("Sequencia invalida\n");
+    }
+    else if (tipo == 1)
+    {
         printf("Sequencia vitoria\n");
     }
     else
@@ -53,7 +66,7 @@ void verificar_sequencia(int k, int vetor[], int tamanho)
 
 int main()
 {
-    int k, vetor[100], tamanho = 0, num = 1; // Inicializa num com um valor diferente de 0
+    int k, vetor[100], tamanho = 0, num = 1;
 
     printf("Indique K: ");
     scanf("%d", &k);
@@ -61,7 +74,7 @@ int main()
     if (validar_K(k))
     {
         printf("Indique uma sequencia de numeros inteiros positivos, terminando com 0: ");
-        while (num != 0) // Loop até que o utilizador insira 0
+        while (num != 0)
         {
             scanf("%d", &num);
 
@@ -71,7 +84,8 @@ int main()
             }
         }
 
-        /* Verificar a sequência fornecida */
-        verificar_sequencia(k, vetor, tamanho);
+        /* Determina o tipo da sequência e imprime o resultado */
+        int tipo = verificar_sequencia(k, vetor, tamanho);
+        imprimir_resultado_sequencia(tipo);
     }
 }
