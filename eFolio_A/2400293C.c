@@ -6,31 +6,28 @@ int validar_K(int k)
 {
     if (k < 2 || k > 100)
     {
-        printf("K tem de ser entre 2 e 100.\n");
+        printf(" K tem de ser entre 2 e 100.\n");
         return 0;
     }
     return 1;
 }
 
-/* Verifica a sequência fornecida */
+/* Verifica se a sequência é inválida */
 int verificar_sequencia(int k, int vetor[], int tamanho)
 {
-    int soma = 0, produto = 1, soma_diferencas = 0;
-
-    /* Calcula a soma e o produto da sequência */
+    int soma = 0, produto = 1;
     for (int i = 0; i < tamanho; i++)
     {
         soma += vetor[i];
         produto *= vetor[i];
     }
+    return soma <= k && produto >= k;
+}
 
-    /* Verifica se a sequência é inválida */
-    if (soma > k || produto < k)
-    {
-        return 0; // Sequência inválida
-    }
-
-    /* Calcula a soma das diferenças absolutas entre todos os pares */
+/* Verifica se a sequência é uma sequência de vitória */
+int verificar_vitoria(int k, int vetor[], int tamanho)
+{
+    int soma_diferencas = 0;
     for (int i = 0; i < tamanho; i++)
     {
         for (int j = i + 1; j < tamanho; j++)
@@ -38,134 +35,150 @@ int verificar_sequencia(int k, int vetor[], int tamanho)
             soma_diferencas += abs(vetor[i] - vetor[j]);
         }
     }
-
-    /* Determina o tipo de sequência */
-    if (soma_diferencas == k)
-    {
-        return 2; // Sequência de vitória
-    }
-    return 1; // Sequência válida
+    return soma_diferencas == k;
 }
 
-/* Gera a sequência inicial com base em K */
-void gerar_sequencia_inicial(int k, int sequencia[], int *tamanho)
-{
-    sequencia[0] = k / 2;
-    sequencia[1] = k / 2;
-    *tamanho = 2;
-}
-
-/* Imprime a sequência e o jogador na mesma linha */
-void imprimir_sequencia_e_jogador(int sequencia[], int tamanho, char jogador)
+/* Imprime a sequência atual */
+void imprimir_sequencia(int vetor[], int tamanho, char jogador, int ultima)
 {
     printf("Sequencia: ");
     for (int i = 0; i < tamanho; i++)
     {
-        printf("%d ", sequencia[i]);
+        printf("%d ", vetor[i]);
     }
-    printf("[Joga %c]\n", jogador);
+    if (!ultima)
+    {
+        printf("[Joga %c]\n", jogador);
+    }
+    else
+    {
+        printf("\n");
+    }
 }
 
-/* Efetua a jogada de um jogador */
-int efetuar_jogada(int sequencia[], int *tamanho, int indice, int valor, int *manter_jogada)
+/* Processa uma jogada */
+int processar_jogada(int vetor[], int *tamanho, int indice, int valor)
 {
-    if (indice >= *tamanho) // Adicionar no final
+    if (indice < 0)
     {
-        sequencia[*tamanho] = valor;
-        (*tamanho)++;
-        *manter_jogada = 0; // Não mantém a jogada
+        indice = 0; // Trata índices negativos como 0
     }
-    else if (valor == 0) // Remover o número
+    if (indice >= *tamanho)
+    {
+        if (valor > 0)
+        {
+            vetor[*tamanho] = valor;
+            (*tamanho)++;
+        }
+        else if (valor < 0)
+        {
+            vetor[*tamanho] = -valor;
+            (*tamanho)++;
+        }
+    }
+    else if (valor == 0)
     {
         for (int i = indice; i < *tamanho - 1; i++)
         {
-            sequencia[i] = sequencia[i + 1];
+            vetor[i] = vetor[i + 1];
         }
         (*tamanho)--;
-        (*manter_jogada)++;
     }
-    else if (valor < 0) // Inserir -valor
+    else if (valor < 0)
     {
         for (int i = *tamanho; i > indice; i--)
         {
-            sequencia[i] = sequencia[i - 1];
+            vetor[i] = vetor[i - 1];
         }
-        sequencia[indice] = -valor;
+        vetor[indice] = -valor;
         (*tamanho)++;
-        (*manter_jogada)++;
     }
-    else // Substituir valor
+    else
     {
-        sequencia[indice] = valor;
-        *manter_jogada = 0; // Não mantém a jogada
+        vetor[indice] = valor;
     }
-
-    return 1; // Jogada válida
+    return 1;
 }
 
 int main()
 {
-    int k, sequencia[100], tamanho, jogadas = 0;
+    int k, vetor[100], tamanho = 2, jogadas = 0, max_jogadas;
     char jogador = 'A';
-    int manter_jogada = 0;
+    int indice, valor, inserir_remover_contador = 0;
 
-    printf("Indique K: ");
+    printf(" Indique K:\n");
     scanf("%d", &k);
 
-    if (validar_K(k))
+    if (!validar_K(k))
     {
-        // Gerar sequência inicial
-        gerar_sequencia_inicial(k, sequencia, &tamanho);
-
-        // Imprimir sequência inicial e jogador
-        imprimir_sequencia_e_jogador(sequencia, tamanho, jogador);
-
-        // Jogo continua até K jogadas
-        while (jogadas < k)
-        {
-            int indice, valor;
-
-            printf("Jogada (indice valor): ");
-            scanf("%d %d", &indice, &valor);
-
-            // Efetuar a jogada
-            if (!efetuar_jogada(sequencia, &tamanho, indice, valor, &manter_jogada))
-            {
-                printf("Jogador %c perdeu.\n", jogador);
-                return 0;
-            }
-
-            // Verificar validade da sequência
-            int resultado = verificar_sequencia(k, sequencia, tamanho);
-
-            if (resultado == 0)
-            {
-                printf("Jogador %c perdeu.\n", jogador);
-                return 0;
-            }
-
-            if (resultado == 2)
-            {
-                printf("Jogador %c venceu.\n", jogador);
-                return 0;
-            }
-
-            // Imprimir sequência após a jogada
-            imprimir_sequencia_e_jogador(sequencia, tamanho, jogador);
-
-            // Lógica de troca de jogador
-            if (manter_jogada >= 2 || (valor > 0 && indice >= tamanho - 1))
-            {
-                jogador = (jogador == 'A') ? 'B' : 'A';
-                manter_jogada = 0; // Reset ao contador
-            }
-
-            jogadas++;
-        }
-
-        // Se chegar a K jogadas sem vitória
-        printf("Empate.\n");
+        return 1;
     }
 
-    return 0;
+    vetor[0] = k / 2;
+    vetor[1] = k / 2;
+    max_jogadas = k;
+
+    imprimir_sequencia(vetor, tamanho, jogador, 0);
+
+    while (jogadas < max_jogadas)
+    {
+        printf("Jogada (indice valor):\n");
+        scanf("%d %d", &indice, &valor);
+
+        if (!processar_jogada(vetor, &tamanho, indice, valor))
+        {
+            imprimir_sequencia(vetor, tamanho, jogador, 1);
+            printf("Jogador %c perdeu.\n", jogador);
+            return 0;
+        }
+
+        /* Verificar sequência inválida primeiro */
+        if (!verificar_sequencia(k, vetor, tamanho))
+        {
+            imprimir_sequencia(vetor, tamanho, jogador, 1);
+            printf("Jogador %c perdeu.\n", jogador);
+            return 0;
+        }
+
+        /* Verificar sequência de vitória apenas se for válida */
+        if (verificar_vitoria(k, vetor, tamanho))
+        {
+            imprimir_sequencia(vetor, tamanho, jogador, 1);
+            printf("Jogador %c ganhou.\n", jogador);
+            return 0;
+        }
+
+        if (jogadas == max_jogadas - 1)
+        {
+            imprimir_sequencia(vetor, tamanho, jogador, 1);
+            printf("Empate.\n");
+            return 0;
+        }
+
+        /* Regras de alternância */
+        if (valor == 0 || valor < 0)
+        {
+            if (inserir_remover_contador < 1)
+            {
+                inserir_remover_contador++;
+            }
+            else
+            {
+                jogador = (jogador == 'A') ? 'B' : 'A';
+                inserir_remover_contador = 0;
+            }
+        }
+        else if (indice >= tamanho)
+        {
+            jogador = (jogador == 'A') ? 'B' : 'A';
+        }
+        else
+        {
+            jogador = (jogador == 'A') ? 'B' : 'A';
+            inserir_remover_contador = 0;
+        }
+
+        imprimir_sequencia(vetor, tamanho, jogador, 0);
+        jogadas++;
+    }
 }
