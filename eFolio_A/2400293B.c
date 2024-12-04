@@ -12,14 +12,19 @@ int validar_K(int k)
     return 1;
 }
 
-/* Verifica se a sequência é inválida */
+/* Verifica se a sequência é válida */
 int verificar_sequencia(int k, int vetor[], int tamanho)
 {
-    int soma = 0, produto = 1;
+    int soma = 0;
+    unsigned long long produto = 1; // Use a larger type to avoid overflow
     for (int i = 0; i < tamanho; i++)
     {
         soma += vetor[i];
         produto *= vetor[i];
+        if (produto > k)
+        { // Prevent overflow
+            produto = k + 1;
+        }
     }
     return soma <= k && produto >= k;
 }

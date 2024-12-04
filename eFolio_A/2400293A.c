@@ -11,12 +11,6 @@ int validar_K(int k)
     return 1;
 }
 
-/* Gera e imprime a sequência inicial com base em K */
-void gerar_sequencia_inicial(int k)
-{
-    printf("Sequencia: %d %d\n", k / 2, k / 2);
-}
-
 int main()
 {
     int k;
@@ -26,6 +20,6 @@ int main()
 
     if (validar_K(k)) /* Apenas gera a sequência se K for válido */
     {
-        gerar_sequencia_inicial(k);
+        printf("Sequencia: %d %d\n", k / 2, k / 2);
     }
 }
