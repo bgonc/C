@@ -16,13 +16,13 @@ int validar_K(int k)
 int verificar_sequencia(int k, int vetor[], int tamanho)
 {
     int soma = 0;
-    unsigned long long produto = 1; // Use a larger type to avoid overflow
+    unsigned long long produto = 1; /* long long para prevenir overflow */
     for (int i = 0; i < tamanho; i++)
     {
         soma += vetor[i];
         produto *= vetor[i];
         if (produto > k)
-        { // Prevent overflow
+        { /* Evita overflow */
             produto = k + 1;
         }
     }
@@ -66,23 +66,26 @@ int processar_jogada(int vetor[], int *tamanho, int indice, int valor)
 {
     if (indice < 0)
     {
-        indice = 0; // Trata índices negativos como 0
+        indice = 0; /* Trata índices negativos como 0 */
     }
     if (indice >= *tamanho)
     {
         if (valor > 0)
         {
+            /* Adiciona um valor no final da sequência */
             vetor[*tamanho] = valor;
             (*tamanho)++;
         }
         else if (valor < 0)
         {
+            /* Adiciona o valor absoluto no final */
             vetor[*tamanho] = -valor;
             (*tamanho)++;
         }
     }
     else if (valor == 0)
     {
+        /* Remove o valor no índice especificado */
         for (int i = indice; i < *tamanho - 1; i++)
         {
             vetor[i] = vetor[i + 1];

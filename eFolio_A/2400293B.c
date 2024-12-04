@@ -16,13 +16,13 @@ int validar_K(int k)
 int verificar_sequencia(int k, int vetor[], int tamanho)
 {
     int soma = 0;
-    unsigned long long produto = 1; // Use a larger type to avoid overflow
+    unsigned long long produto = 1; /* long long para prevenir overflow */
     for (int i = 0; i < tamanho; i++)
     {
         soma += vetor[i];
         produto *= vetor[i];
         if (produto > k)
-        { // Prevent overflow
+        { /* Evita overflow */
             produto = k + 1;
         }
     }
@@ -73,6 +73,7 @@ int main()
         printf("Indique uma sequencia de numeros inteiros positivos, terminando com 0: ");
         while (num != 0)
         {
+            /* Lê cada número da sequência até encontrar 0 */
             scanf("%d", &num);
 
             if (num != 0 && tamanho < 100)
