@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
 
+<<<<<<< HEAD
 /* Valida se K está entre 2 e 100 */
 int validar_K(int k)
 {
@@ -97,3 +96,6 @@ int main()
         }
     }
 }
+=======
+        }
+>>>>>>> 547015e2b86500586904b415283004213691d229
