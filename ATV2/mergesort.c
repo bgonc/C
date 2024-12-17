@@ -7,17 +7,7 @@ unsigned int randaux()
     static long seed = 1;
     return (((seed = seed * 214013L + 2531011L) >> 16) & 0x7fff);
 }
-void MergeSort(int v[], int inicio, int fim)
-{
-    if (inicio < fim)
-    {
-        int meio = (inicio + fim) / 2;
 
-        MergeSort(v, inicio, meio);  // Ordena a primeira metade
-        MergeSort(v, meio + 1, fim); // Ordena a segunda metade
-        Merge(v, inicio, meio, fim); // Junta as duas metades ordenadas
-    }
-}
 void Merge(int v[], int inicio, int meio, int fim)
 {
     int i = inicio, j = meio + 1, k = 0;
@@ -39,6 +29,22 @@ void Merge(int v[], int inicio, int meio, int fim)
 
     for (i = inicio, k = 0; i <= fim; i++, k++)
         v[i] = temp[k];
+}
+
+void MergeSort(int v[], int n)
+{
+    void MergeSortHelper(int v[], int inicio, int fim) // Função auxiliar para recursividade
+    {
+        if (inicio < fim)
+        {
+            int meio = (inicio + fim) / 2;
+            MergeSortHelper(v, inicio, meio);
+            MergeSortHelper(v, meio + 1, fim);
+            Merge(v, inicio, meio, fim);
+        }
+    }
+
+    MergeSortHelper(v, 0, n - 1);
 }
 
 int main()
