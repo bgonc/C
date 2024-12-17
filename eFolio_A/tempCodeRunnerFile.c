@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+=======
+<<<<<<< HEAD
+>>>>>>> d45756781d25883cd27e14c867535a6cba87d904
 /* Valida se K está entre 2 e 100 */
 int validar_K(int k)
 {
@@ -403,8 +406,7 @@ int main()
 
         imprimir_sequencia(vetor, tamanho, jogador, 0);
     }
-
-    imprimir_sequencia(vetor, tamanho, jogador, 1);
-    printf("Empate.\n");
-    return 0;
 }
+=======
+        }
+>>>>>>> 547015e2b86500586904b415283004213691d229
