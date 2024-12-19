@@ -1,7 +1,8 @@
 {
+    "version": "2.0.0",
     "configurations": [
         {
-            "name": "C/C++: clang build and debug active file",
+            "name": "C/C++: gcc build and debug active file",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
@@ -10,28 +11,8 @@
             "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": false,
-            "MIMode": "lldb",
-            "preLaunchTask": "C/C++: clang build active file"
-        },
-        {
-            "name": "C/C++ Runner: Debug Session",
-            "type": "lldb",
-            "request": "launch",
-            "args": [],
-            "cwd": "/Users/bruno/Documents/GitHub/C",
-            "program": "/Users/bruno/Documents/GitHub/C/build/Debug/outDebug"
-        },
-        {
-            "name": "(gdb) Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "enter program name, for example ${workspaceFolder}/a.out",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": false,
             "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",  // Specify the path to GDB here
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -43,8 +24,8 @@
                     "text": "-gdb-set disassembly-flavor intel",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "C/C++: gcc build active file"
         }
-    ],
-    "version": "2.0.0"
+    ]
 }
