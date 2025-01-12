@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Estrutura para armazenar os dados da colmeia
+typedef struct {
+    int fax;
+    int nut;
+    int con;
+    int gua;
+    int forr;
+    int zan;
+    int rai;
+} Colmeia;
+
+// Função para validar o número de abelhas
+int validarAbelhas(int nAbelhas) {
+    if (nAbelhas < 200) {
+        printf("Colmeia vazia\n");
+        return 0;
+    }
+    return 1;
+}
+
+// Função para distribuir as abelhas pelas funções
+Colmeia distribuirAbelhas(int nAbelhas) {
+    Colmeia colmeia = {0, 0, 0, 0, 0, 40, 1}; // Zangões e rainha fixos
+    int operarias = nAbelhas - colmeia.zan - colmeia.rai;
+
+    // Distribuição inicial
+    int abelhas_por_dia = operarias / 40;
+    colmeia.fax = abelhas_por_dia;
+    colmeia.nut = abelhas_por_dia;
+    colmeia.con = abelhas_por_dia;
+    colmeia.gua = abelhas_por_dia;
+    colmeia.forr = abelhas_por_dia;
+
+    // Ajustar as abelhas excedentes
+    int resto = operarias % 40;
+    if (resto > 0) colmeia.fax++;
+    if (resto > 1) colmeia.nut++;
+    if (resto > 2) colmeia.con++;
+    if (resto > 3) colmeia.gua++;
+    if (resto > 4) colmeia.forr++;
+
+    return colmeia;
+}
+
+// Função para gerar o relatório da colmeia
+void gerarRelatorio(Colmeia colmeia) {
+    printf("Relatório Colmeia:\n");
+    printf(" fax nut con gua for zan rai\n");
+    printf(" %3d %3d %3d %3d %3d %3d %3d\n",
+           colmeia.fax, colmeia.nut, colmeia.con,
+           colmeia.gua, colmeia.forr, colmeia.zan, colmeia.rai);
+    printf("\nFavo   0:            celulas vazias:\n");
+    printf("                      usadas:\n");
+}
+
+int main() {
+    int nAbelhas, nCelulas, minutos, temporadas;
+
+    // Entrada de dados
+    scanf("%d", &nAbelhas);
+    scanf("%d", &nCelulas);
+    scanf("%d", &minutos);
+    scanf("%d", &temporadas);
+
+    // Validar número de abelhas
+    if (!validarAbelhas(nAbelhas)) {
+        return 0;
+    }
+
+    // Distribuir as abelhas pelas funções
+    Colmeia colmeia = distribuirAbelhas(nAbelhas);
+
+    // Gerar o relatório
+    gerarRelatorio(colmeia);
+
+    return 0;
+}
