@@ -2,53 +2,60 @@
 #include <stdlib.h>
 #include <string.h>
 
+// Define os diferentes tipos de abelhas na colmeia
 typedef enum
 {
-    FAX, // 0
-    NUT, // 1
-    CON, // 2
-    GUA, // 3
-    FOR, // 4
-    ZAN, // 5
-    RAI  // 6
+    FAX, // 0 Faxineiras
+    NUT, // 1 Nutrizes
+    CON, // 2 Construtoras
+    GUA, // 3 Guardiãs
+    FOR, // 4 Forrageiras
+    ZAN, // 5 Zangões
+    RAI  // 6 Rainha
 } TipoAbelha;
 
+// Define os estados possíveis de uma célula
 typedef enum
 {
     VAZIA,
     USADA
 } EstadoCelula;
 
+// Define os diferentes tipos de células no favo
 typedef enum
 {
-    MEL,
-    POL,
-    NEC,
-    CRI,
-    ZAN_CELL,
-    REA
+    MEL,      // Armazena mel (até 500mg)
+    POL,      // Armazena pólen (até 20mg)
+    NEC,      // Armazena néctar (até 40mg)
+    CRI,      // Célula de criação de abelhas operárias
+    ZAN_CELL, // Célula de criação de zangões
+    REA       // Célula real para criar rainhas
 } TipoCelula;
 
+// Estrutura para armazenar informações de cada abelha
 typedef struct
 {
     TipoAbelha tipo;
-    int tempoNascimento;
-    int tempoUltimaRefeicao;
+    int tempoNascimento;     // Em minutos, negativo indica passado
+    int tempoUltimaRefeicao; // Tempo da última alimentação
 } Abelha;
 
+// Estrutura para representar uma célula do favo
 typedef struct
 {
     TipoCelula tipo;
     EstadoCelula estado;
-    int conteudo; // Para células de alimento: quantidade. Para células de cria: tempo do ovo
+    int conteudo; // Quantidade em miligramas para células de armazenamento
 } Celula;
 
+// Estrutura para representar um favo
 typedef struct
 {
     Celula *celulas;
     int numeroCelulas;
 } Favo;
 
+// Estrutura principal que representa a colmeia
 typedef struct
 {
     Abelha *abelhas;
@@ -197,7 +204,7 @@ Celula *encontrarCelulaAlimento(Colmeia *colmeia, TipoCelula tipoAlimento)
 {
     // Primeiro encontra o menor valor não nulo
     int conteudoMinimo = 999999;
-    
+
     // Do favo mais novo (ID maior) para o mais velho
     for (int i = colmeia->numeroFavos - 1; i >= 0; i--)
     {
@@ -223,9 +230,9 @@ Celula *encontrarCelulaAlimento(Colmeia *colmeia, TipoCelula tipoAlimento)
         for (int j = colmeia->favos[i].numeroCelulas - 1; j >= 0; j--)
         {
             Celula *celula = &colmeia->favos[i].celulas[j];
-            if (celula->tipo == tipoAlimento && 
+            if (celula->tipo == tipoAlimento &&
                 celula->estado == USADA &&
-                celula->conteudo > 0 && 
+                celula->conteudo > 0 &&
                 celula->conteudo == conteudoMinimo)
             {
                 return celula;
@@ -326,13 +333,13 @@ void promoverNaoAdultas(Colmeia *colmeia, int tempoAtual)
             if (celula->tipo == CRI && celula->estado == USADA)
             {
                 int tempoCriacao = tempoAtual - celula->conteudo;
-                
+
                 if (tempoCriacao > 21 * 1440)
                 {
                     // Criar nova abelha faxineira
                     int novoIndice = colmeia->numeroAbelhas++;
-                    colmeia->abelhas = realloc(colmeia->abelhas, 
-                                             sizeof(Abelha) * colmeia->numeroAbelhas);
+                    colmeia->abelhas = realloc(colmeia->abelhas,
+                                               sizeof(Abelha) * colmeia->numeroAbelhas);
 
                     colmeia->abelhas[novoIndice].tipo = FAX;
                     colmeia->abelhas[novoIndice].tempoNascimento = tempoAtual;
@@ -426,7 +433,7 @@ int recolherPolen(Colmeia *colmeia, int *trabalhoForrageiras, int *trabalhoFaxin
 
     // Repõe pólen
     celulaVazia->estado = USADA;
-    celulaVazia->conteudo = 20;  // célula cheia de pólen
+    celulaVazia->conteudo = 20; // célula cheia de pólen
     *trabalhoForrageiras -= 60;
     *trabalhoFaxineiras -= 10;
 
@@ -572,11 +579,11 @@ void simularColmeia(Colmeia *colmeia, int minutos, int temporadas)
     int trabalhoForrageiras = 0;
     int trabalhoFaxineiras = 0;
     int terminado = 0;
-    
+
     while (relatorioPendente > 0 && !terminado)
     {
         int tempoAlvoRelatorio = tempoAtual + minutos;
-        
+
         for (int m = tempoAtual + 1; m <= tempoAlvoRelatorio && !terminado; m++)
         {
             // Verifica mortes por idade
@@ -596,16 +603,16 @@ void simularColmeia(Colmeia *colmeia, int minutos, int temporadas)
             {
                 // Promove abelhas operárias
                 promoverAbelhas(colmeia);
-                
+
                 // Acumula trabalho
                 for (int i = 0; i < colmeia->numeroAbelhas; i++)
                 {
                     if (colmeia->abelhas[i].tipo != -1)
                     {
-                        if (colmeia->abelhas[i].tipo == FAX && 
+                        if (colmeia->abelhas[i].tipo == FAX &&
                             m - colmeia->abelhas[i].tempoUltimaRefeicao < 1440)
                             trabalhoFaxineiras++;
-                        else if (colmeia->abelhas[i].tipo == FOR && 
+                        else if (colmeia->abelhas[i].tipo == FOR &&
                                  m - colmeia->abelhas[i].tempoUltimaRefeicao < 1440)
                             trabalhoForrageiras++;
                     }
@@ -637,7 +644,7 @@ void simularColmeia(Colmeia *colmeia, int minutos, int temporadas)
             if (numPrecisamComer > 0)
             {
                 Celula *celulaMel = encontrarCelulaAlimento(colmeia, MEL);
-                
+
                 // Se não tem mel suficiente
                 if (!celulaMel || celulaMel->conteudo < 10)
                 {
@@ -705,27 +712,35 @@ void simularColmeia(Colmeia *colmeia, int minutos, int temporadas)
 
             // Verifica se todas morreram E não há ovos/larvas/pupas
             int temAbelhasOuCrias = 0;
-            for (int i = 0; i < colmeia->numeroAbelhas; i++) {
+            for (int i = 0; i < colmeia->numeroAbelhas; i++)
+            {
                 if (colmeia->abelhas[i].tipo != -1)
                     temAbelhasOuCrias = 1;
             }
-            if (!temAbelhasOuCrias) {
-                for (int i = 0; i < colmeia->numeroFavos; i++) {
-                    for (int j = 0; j < colmeia->favos[i].numeroCelulas; j++) {
-                        if (colmeia->favos[i].celulas[j].tipo == CRI && 
-                            colmeia->favos[i].celulas[j].estado == USADA) {
+            if (!temAbelhasOuCrias)
+            {
+                for (int i = 0; i < colmeia->numeroFavos; i++)
+                {
+                    for (int j = 0; j < colmeia->favos[i].numeroCelulas; j++)
+                    {
+                        if (colmeia->favos[i].celulas[j].tipo == CRI &&
+                            colmeia->favos[i].celulas[j].estado == USADA)
+                        {
                             int tempoCriacao = m - colmeia->favos[i].celulas[j].conteudo;
-                            if (tempoCriacao <= 21 * 1440) {
+                            if (tempoCriacao <= 21 * 1440)
+                            {
                                 temAbelhasOuCrias = 1;
                                 break;
                             }
                         }
                     }
-                    if (temAbelhasOuCrias) break;
+                    if (temAbelhasOuCrias)
+                        break;
                 }
             }
-            
-            if (!temAbelhasOuCrias) {
+
+            if (!temAbelhasOuCrias)
+            {
                 imprimirRelatorio(colmeia, m);
                 terminado = 1;
                 break;
@@ -744,9 +759,13 @@ int main()
 {
     int nAbelhas, nCelulas, minutos, temporadas;
 
+    // printf("Quantidade de abelhas: ");
     scanf("%d", &nAbelhas);
+    // printf("Quantidade de celulas: ");
     scanf("%d", &nCelulas);
+    // printf("Minutos por temporada: ");
     scanf("%d", &minutos);
+    // printf("Temporadas: ");
     scanf("%d", &temporadas);
 
     Colmeia colmeia;

@@ -1,68 +1,75 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Enumeração para definir os tipos de abelhas
+// Define os diferentes tipos de abelhas na colmeia
 typedef enum
 {
-    FAX, // Faxineiras
-    NUT, // Nutrizes
-    CON, // Construtoras
-    GUA, // Guardiãs
-    FOR, // Forrageiras
-    ZAN, // Zangões
-    RAI  // Rainha
+    FAX, // 0 Faxineiras
+    NUT, // 1 Nutrizes
+    CON, // 2 Construtoras
+    GUA, // 3 Guardiãs
+    FOR, // 4 Forrageiras
+    ZAN, // 5 Zangões
+    RAI  // 6 Rainha
 } TipoAbelha;
 
-// Estrutura que representa uma abelha
+// Estrutura para armazenar informações de cada abelha
 typedef struct
 {
-    TipoAbelha tipo;      // Tipo da abelha
-    int tempoNascimento;  // Tempo de nascimento em minutos negativos
+    TipoAbelha tipo;
+    int tempoNascimento; // Em minutos, negativo indica passado
 } Abelha;
 
-// Estrutura que representa a colmeia
+// Estrutura principal que representa a colmeia
 typedef struct
 {
-    Abelha *abelhas;       // Ponteiro para o array de abelhas
-    int numeroAbelhas;     // Número total de abelhas na colmeia
+    Abelha *abelhas;
+    int numeroAbelhas;
 } Colmeia;
 
-// Função para inicializar as abelhas na colmeia
-void inicializarAbelhas(Colmeia *colmeia, int N)
+//Inicializa a população de abelhas na colmeia
+int inicializarAbelhas(Colmeia *colmeia, int N)
 {
-    // Calcula o número de abelhas por dia (de idade)
+    // Calcula quantas abelhas operárias por dia de idade
     int abelhasPorDia = N / 40;
 
-    // Se não houver pelo menos 5 abelhas por dia, a colmeia fica vazia
+    // Se não houver abelhas suficientes para ter 1 de cada tipo por dia
     if (abelhasPorDia < 5)
     {
         colmeia->numeroAbelhas = 0;
         colmeia->abelhas = NULL;
-        return;
+        return 1; // Sucesso, caso válido de colmeia vazia
     }
 
-    // Calcula o número total de abelhas: operárias, zangões e 1 rainha
+    // Total = (operárias por dia * 40 dias) + (40 zangões + 1 rainha)
     colmeia->numeroAbelhas = abelhasPorDia * 40 + 41;
 
-    // Aloca memória para o array de abelhas
+    // Tenta alocar memória para as abelhas
     colmeia->abelhas = malloc(sizeof(Abelha) * colmeia->numeroAbelhas);
+    if (colmeia->abelhas == NULL)
+    {
+        colmeia->numeroAbelhas = 0;
+        return 0; // Falha na alocação
+    }
 
-    // Índice para acompanhar a inserção de abelhas
     int indiceAbelha = 0;
 
-    // Inicializa as operárias com base nos dias e funções
+    // Inicializa as abelhas operárias para cada dia de idade
     for (int dia = 1; dia <= 40; dia++)
     {
+        // Para cada dia, distribui as abelhas entre os 5 tipos
         for (int b = 0; b < abelhasPorDia; b++)
         {
-            TipoAbelha tipo = b % 5; // Alterna entre os tipos FAX, NUT, CON, GUA, FOR
+            // Ciclo entre os tipos: FAX -> NUT -> CON -> GUA -> FOR
+            TipoAbelha tipo = b % 5;
             colmeia->abelhas[indiceAbelha].tipo = tipo;
-            colmeia->abelhas[indiceAbelha].tempoNascimento = -(dia * 1440 - b); // Em minutos negativos
+            // Calcula o tempo de nascimento: dias convertidos em minutos (1440 = 24*60)
+            colmeia->abelhas[indiceAbelha].tempoNascimento = -(dia * 1440 - b);
             indiceAbelha++;
         }
     }
 
-    // Inicializa os zangões com idades distribuídas entre 1 e 40 dias
+    // Inicializa os 40 zangões, um para cada dia de idade
     for (int i = 0; i < 40; i++)
     {
         colmeia->abelhas[indiceAbelha].tipo = ZAN;
@@ -70,20 +77,21 @@ void inicializarAbelhas(Colmeia *colmeia, int N)
         indiceAbelha++;
     }
 
-    // Inicializa a rainha (idade 0)
+    // Inicializa a única rainha, com idade 0
     colmeia->abelhas[indiceAbelha].tipo = RAI;
     colmeia->abelhas[indiceAbelha].tempoNascimento = 0;
+
+    return 1;
 }
 
-// Função para imprimir o relatório inicial da colmeia
 void imprimirRelatorio(Colmeia *colmeia)
 {
-    int contadorAbelhas[7] = {0}; // Contador para cada tipo de abelha
+    int contadorAbelhas[7] = {0};
 
-    // Conta o número de abelhas de cada tipo
+    // Conta as abelhas vivas (tipo != -1) de cada tipo
     for (int i = 0; i < colmeia->numeroAbelhas; i++)
     {
-        if (colmeia->abelhas[i].tipo != -1) // Verifica se a abelha está ativa
+        if (colmeia->abelhas[i].tipo != -1)
         {
             contadorAbelhas[colmeia->abelhas[i].tipo]++;
         }
@@ -93,7 +101,7 @@ void imprimirRelatorio(Colmeia *colmeia)
     printf("Relatorio colmeia:\n");
     printf(" fax nut con gua for zan rai ovo lar pup mel pol nec cri zan rea\n");
 
-    // Imprime o número de abelhas de cada tipo
+    // Imprime a quantidade de cada tipo de abelha
     for (int i = 0; i < 7; i++)
     {
         if (contadorAbelhas[i] > 0)
@@ -103,7 +111,7 @@ void imprimirRelatorio(Colmeia *colmeia)
     }
     printf("\n");
 
-    // Informações fixas sobre as células (não utilizadas nesta alínea)
+    // Imprime informações sobre o favo (vazio nesta alínea)
     printf("    Favo   0:            celulas vazias:\n");
     printf("                                 usadas:\n");
 }
@@ -112,23 +120,29 @@ int main()
 {
     int nAbelhas, nCelulas, minutos, temporadas;
 
-    // Lê os dados de entrada do utilizador
+    // printf("Quantidade de abelhas: ");
     scanf("%d", &nAbelhas);
+    // printf("Quantidade de celulas: ");
     scanf("%d", &nCelulas);
+    // printf("Minutos por temporada: ");
     scanf("%d", &minutos);
+    // printf("Temporadas: ");
     scanf("%d", &temporadas);
 
+    // Inicializa e processa a colmeia
     Colmeia colmeia;
+    if (!inicializarAbelhas(&colmeia, nAbelhas))
+    {
+        return 1; // Erro na inicialização
+    }
 
-    // Inicializa as abelhas da colmeia
-    inicializarAbelhas(&colmeia, nAbelhas);
-
-    // Imprime o relatório inicial
     imprimirRelatorio(&colmeia);
 
-    // Libera a memória alocada para as abelhas
+    // Liberta a memória alocada
     if (colmeia.abelhas)
+    {
         free(colmeia.abelhas);
+    }
 
     return 0;
 }
