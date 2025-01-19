@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 // Função para imprimir o cabeçalho do relatório.
 void imprimirCabecalho(void)
@@ -16,11 +15,26 @@ void distribuirOperarias(int totalAbelhas,
     int cicloCompleto = abelhasPorDia / 5;
     int resto = abelhasPorDia % 5;
 
-    *fax = (cicloCompleto + (resto > 0 ? 1 : 0)) * 40;
-    *nut = (cicloCompleto + (resto > 1 ? 1 : 0)) * 40;
-    *con = (cicloCompleto + (resto > 2 ? 1 : 0)) * 40;
-    *gua = (cicloCompleto + (resto > 3 ? 1 : 0)) * 40;
-    *forr = (cicloCompleto + (resto > 4 ? 1 : 0)) * 40;
+    if (resto > 0)
+        *fax = (cicloCompleto + 1) * 40;
+    else
+        *fax = cicloCompleto * 40;
+    if (resto > 1)
+        *nut = (cicloCompleto + 1) * 40;
+    else
+        *nut = cicloCompleto * 40;
+    if (resto > 2)
+        *con = (cicloCompleto + 1) * 40;
+    else
+        *con = cicloCompleto * 40;
+    if (resto > 3)
+        *gua = (cicloCompleto + 1) * 40;
+    else
+        *gua = cicloCompleto * 40;
+    if (resto > 4)
+        *forr = (cicloCompleto + 1) * 40;
+    else
+        *forr = cicloCompleto * 40;
 }
 
 // Função para imprimir a distribuição das abelhas.
