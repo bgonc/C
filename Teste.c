@@ -1,37 +1,28 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-// TODO: Define the function to double each array element using a pointer
-void doubleArray(int *arr, int *size)
+int main ()
 {
-    // Loop through the array using a pointer
-    for (int i = 0; i < *size; i++)
+    int size;
+    int i;
+
+    printf("Digite o tamanho do vetor: \n");
+    scanf("%d", &size);
+
+    int *arr = malloc(size * sizeof(int));
+
+    printf("Digite %d numeros: \n", size);
+
+    for(i = 0; i < size; i++)
     {
-        // TODO: Double each element using a pointer
-        *(arr + i) *= 2;
+        scanf("%d", &arr[i]);
     }
-}
-
-int main()
-{
-    int numbers[] = {1, 2, 3, 4, 5};
-    int size = 5;
-
-    printf("Before: ");
-    for (int i = 0; i < size; i++)
+    printf("Indicou: \n");
+    for(i = 0; i < size; i++)
     {
-        printf("%d ", numbers[i]);
+        printf("%d \n", arr[i]);
     }
-    printf("\n");
 
-    // TODO: Call the function to double the array elements
-    doubleArray(numbers, &size);
+    free (arr);
 
-    printf("After: ");
-    for (int i = 0; i < size; i++)
-    {
-        printf("%d ", numbers[i]);
-    }
-    printf("\n");
-
-    return 0;
 }
