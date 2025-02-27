@@ -2,8 +2,9 @@
 
 void update(int *a, int *b)
 {
+    int aux = *a;
     *a = *a + *b;
-    *b = *a - *b;
+    *b = aux - *b;
 }
 
 int main()
