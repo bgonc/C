@@ -3,7 +3,7 @@
 #include <string.h>
 #include "conteudos.h"
 
-// Lê os conteúdos a partir do ficheiro CSV
+// Lê os conteudos a partir do ficheiro CSV
 Conteudo *lerConteudosCSV(const char *nomeFicheiro, int *num)
 {
     FILE *f = fopen(nomeFicheiro, "r");
@@ -35,7 +35,7 @@ Conteudo *lerConteudosCSV(const char *nomeFicheiro, int *num)
     return lista;
 }
 
-// Grava os conteúdos no ficheiro CSV
+// Grava os conteudos no ficheiro CSV
 void gravarConteudosCSV(const char *nomeFicheiro, Conteudo *lista, int num)
 {
     FILE *f = fopen(nomeFicheiro, "w");
@@ -58,19 +58,19 @@ void gravarConteudosCSV(const char *nomeFicheiro, Conteudo *lista, int num)
     fclose(f);
 }
 
-// Lista todos os conteúdos carregados na memória
+// Lista todos os conteudos carregados na memória
 void listarConteudos(Conteudo *lista, int num)
 {
     if (num == 0)
     {
-        printf("Nenhum conteúdo encontrado.\n");
+        printf("Nenhum conteudo encontrado.\n");
         return;
     }
 
-    printf("\n--- Lista de Conteúdos ---\n");
+    printf("\n--- Lista de Conteudos ---\n");
     for (int i = 0; i < num; i++)
     {
-        printf("%d - %s (%s) - %d min - M%d - %d visualizações\n",
+        printf("%d - %s (%s) - %d min - M%d - %d visualizacoes\n",
                i + 1,
                lista[i].titulo,
                lista[i].categoria,
@@ -80,12 +80,12 @@ void listarConteudos(Conteudo *lista, int num)
     }
 }
 
-// Adiciona um novo conteúdo
+// Adiciona um novo conteudo
 Conteudo *adicionarConteudo(Conteudo *lista, int *num)
 {
     lista = realloc(lista, (*num + 1) * sizeof(Conteudo));
 
-    printf("Título: ");
+    printf("Titulo: ");
     fgets(lista[*num].titulo, sizeof(lista[*num].titulo), stdin);
     lista[*num].titulo[strcspn(lista[*num].titulo, "\n")] = 0;
 
@@ -93,40 +93,40 @@ Conteudo *adicionarConteudo(Conteudo *lista, int *num)
     fgets(lista[*num].categoria, sizeof(lista[*num].categoria), stdin);
     lista[*num].categoria[strcspn(lista[*num].categoria, "\n")] = 0;
 
-    printf("Duração (min): ");
+    printf("Duracao (min): ");
     scanf("%d", &lista[*num].duracao);
     getchar();
 
-    printf("Classificação etária: ");
+    printf("Classificacao etaria: ");
     scanf("%d", &lista[*num].classificacaoEtaria);
     getchar();
 
-    lista[*num].visualizacoes = 0; // novo conteúdo começa com 0 visualizações
+    lista[*num].visualizacoes = 0; // novo conteudo começa com 0 visualizacoes
 
     (*num)++;
-    printf("Conteúdo adicionado com sucesso.\n");
+    printf("Conteudo adicionado com sucesso.\n");
     return lista;
 }
 
-// Edita um conteúdo
+// Edita um conteudo
 void editarConteudo(Conteudo *lista, int num)
 {
     int idx;
     listarConteudos(lista, num);
 
-    printf("Número do conteúdo a editar: ");
+    printf("Numero do conteudo a editar: ");
     scanf("%d", &idx);
     getchar();
 
     if (idx < 1 || idx > num)
     {
-        printf("Índice inválido.\n");
+        printf("Indice invalido.\n");
         return;
     }
 
-    idx--; // converter para índice de array
+    idx--; // converter para Indice de array
 
-    printf("Novo título: ");
+    printf("Novo titulo: ");
     fgets(lista[idx].titulo, sizeof(lista[idx].titulo), stdin);
     lista[idx].titulo[strcspn(lista[idx].titulo, "\n")] = 0;
 
@@ -134,36 +134,36 @@ void editarConteudo(Conteudo *lista, int num)
     fgets(lista[idx].categoria, sizeof(lista[idx].categoria), stdin);
     lista[idx].categoria[strcspn(lista[idx].categoria, "\n")] = 0;
 
-    printf("Nova duração (min): ");
+    printf("Nova duracao (min): ");
     scanf("%d", &lista[idx].duracao);
     getchar();
 
-    printf("Nova classificação etária: ");
+    printf("Nova classificacao etaria: ");
     scanf("%d", &lista[idx].classificacaoEtaria);
     getchar();
 
-    printf("Conteúdo editado com sucesso.\n");
+    printf("Conteudo editado com sucesso.\n");
 }
 
-// Remove um conteúdo da lista
+// Remove um conteudo da lista
 Conteudo *removerConteudo(Conteudo *lista, int *num)
 {
     int idx;
     listarConteudos(lista, *num);
 
-    printf("Número do conteúdo a remover: ");
+    printf("Numero do conteudo a remover: ");
     scanf("%d", &idx);
     getchar();
 
     if (idx < 1 || idx > *num)
     {
-        printf("Índice inválido.\n");
+        printf("Indice invalido.\n");
         return lista;
     }
 
-    idx--; // converter para índice de array
+    idx--; // converter para Indice de array
 
-    // mover os conteúdos seguintes para trás
+    // mover os conteudos seguintes para trás
     for (int i = idx; i < *num - 1; i++)
     {
         lista[i] = lista[i + 1];
@@ -171,15 +171,15 @@ Conteudo *removerConteudo(Conteudo *lista, int *num)
 
     (*num)--;
     lista = realloc(lista, (*num) * sizeof(Conteudo));
-    printf("Conteúdo removido com sucesso.\n");
+    printf("Conteudo removido com sucesso.\n");
     return lista;
 }
 
-// Pesquisa por título
+// Pesquisa por titulo
 void pesquisarPorTitulo(Conteudo *lista, int num)
 {
     char termo[100];
-    printf("Introduza o título a pesquisar: ");
+    printf("Introduza o titulo a pesquisar: ");
     fgets(termo, sizeof(termo), stdin);
     termo[strcspn(termo, "\n")] = 0;
 
@@ -188,7 +188,7 @@ void pesquisarPorTitulo(Conteudo *lista, int num)
     {
         if (strstr(lista[i].titulo, termo) != NULL)
         {
-            printf("%d - %s (%s) - %d min - M%d - %d visualizações\n",
+            printf("%d - %s (%s) - %d min - M%d - %d visualizacoes\n",
                    i + 1, lista[i].titulo, lista[i].categoria,
                    lista[i].duracao, lista[i].classificacaoEtaria,
                    lista[i].visualizacoes);
@@ -196,7 +196,7 @@ void pesquisarPorTitulo(Conteudo *lista, int num)
     }
 }
 
-// Pesquisa conteúdos por categoria
+// Pesquisa conteudos por categoria
 void pesquisarPorCategoria(Conteudo *lista, int num)
 {
     char categoria[50];
@@ -209,34 +209,34 @@ void pesquisarPorCategoria(Conteudo *lista, int num)
     {
         if (strcmp(lista[i].categoria, categoria) == 0)
         {
-            printf("%d - %s (%d min, M%d, %d visualizações)\n",
+            printf("%d - %s (%d min, M%d, %d visualizacoes)\n",
                    i + 1, lista[i].titulo, lista[i].duracao,
                    lista[i].classificacaoEtaria, lista[i].visualizacoes);
         }
     }
 }
 
-// Pesquisa conteúdos por classificação etária
+// Pesquisa conteudos por classificacao etaria
 void pesquisarPorClassEtaria(Conteudo *lista, int num)
 {
     int idade;
-    printf("Introduza a classificação etária (apenas o número, ex: 6, 12, 16): ");
+    printf("Introduza a classificacao etaria (apenas o numero, ex: 6, 12, 16): ");
     scanf("%d", &idade);
     getchar();
 
-    printf("\n--- Resultados da pesquisa por classificação etária ---\n");
+    printf("\n--- Resultados da pesquisa por classificacao etaria ---\n");
     for (int i = 0; i < num; i++)
     {
         if (lista[i].classificacaoEtaria == idade)
         {
-            printf("%d - %s (%s, %d min, %d visualizações)\n",
+            printf("%d - %s (%s, %d min, %d visualizacoes)\n",
                    i + 1, lista[i].titulo, lista[i].categoria,
                    lista[i].duracao, lista[i].visualizacoes);
         }
     }
 }
 
-// Mostra o conteúdo mais visualizado
+// Mostra o conteudo mais visualizado
 void mostrarMaisVisualizado(Conteudo *lista, int num)
 {
     if (num == 0)
@@ -254,8 +254,8 @@ void mostrarMaisVisualizado(Conteudo *lista, int num)
         }
     }
 
-    printf("\n--- Conteúdo mais visualizado ---\n");
-    printf("%s (%s) - %d visualizações\n",
+    printf("\n--- Conteudo mais visualizado ---\n");
+    printf("%s (%s) - %d visualizacoes\n",
            lista[max].titulo,
            lista[max].categoria,
            lista[max].visualizacoes);

@@ -4,7 +4,7 @@
 #include "conteudos.h"
 #include "interacoes.h"
 
-// Permite ao utilizador registar uma interação com um conteúdo
+// Permite ao utilizador registar uma interacao com um conteudo
 void registarInteracao(Conteudo *lista, int num)
 {
     int idx;
@@ -12,40 +12,40 @@ void registarInteracao(Conteudo *lista, int num)
 
     if (num == 0)
     {
-        printf("Não existem conteúdos disponíveis.\n");
+        printf("Nao existem conteudos disponiveis.\n");
         return;
     }
 
     listarConteudos(lista, num);
 
-    printf("Escolha o número do conteúdo: ");
+    printf("Escolha o numero do conteudo: ");
     scanf("%d", &idx);
     getchar(); // limpar o \n do buffer
 
     if (idx < 1 || idx > num)
     {
-        printf("Conteúdo inválido.\n");
+        printf("Conteudo invalido.\n");
         return;
     }
 
     idx--; // converter para índice do array
 
-    printf("Tipo de interação (Reproduzir, Pausa, Terminar): ");
+    printf("Tipo de interacao (Reproduzir, Pausa, Terminar): ");
     fgets(tipo, sizeof(tipo), stdin);
     tipo[strcspn(tipo, "\n")] = 0;
 
-    // Se a interação for "Terminar", aumenta o contador de visualizações
+    // Se a interacao for "Terminar", aumenta o contador de visualizacoes
     if (strcmp(tipo, "Terminar") == 0)
     {
         lista[idx].visualizacoes++;
-        printf("Visualização registada com sucesso.\n");
+        printf("Visualizacao registada com sucesso.\n");
     }
     else
     {
-        printf("Interação '%s' registada (sem alterar visualizações).\n", tipo);
+        printf("Interacao '%s' registada (sem alterar visualizacoes).\n", tipo);
     }
 
-    // Regista a interação num ficheiro externo (append)
+    // Regista a interacao num ficheiro externo (append)
     FILE *f = fopen("interacoes.csv", "a");
     if (f != NULL)
     {
@@ -54,6 +54,6 @@ void registarInteracao(Conteudo *lista, int num)
     }
     else
     {
-        printf("Erro ao gravar no ficheiro de interações.\n");
+        printf("Erro ao gravar no ficheiro de interacoes.\n");
     }
 }

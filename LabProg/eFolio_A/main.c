@@ -17,17 +17,17 @@ int main()
     do
     {
         printf("\n=== STREAMFLIX ===\n");
-        printf("1 - Listar conteúdos\n");
-        printf("2 - Adicionar conteúdo\n");
-        printf("3 - Editar conteúdo\n");
-        printf("4 - Remover conteúdo\n");
-        printf("5 - Pesquisar por título\n");
-        printf("6 - Registar interação\n");
+        printf("1 - Listar conteudos\n");
+        printf("2 - Adicionar conteudo\n");
+        printf("3 - Editar conteudo\n");
+        printf("4 - Remover conteudo\n");
+        printf("5 - Pesquisar por titulo\n");
+        printf("6 - Registar interacao\n");
         printf("7 - Pesquisar por categoria\n");
-        printf("8 - Pesquisar por classificação etária\n");
-        printf("9 - Ver conteúdo mais visualizado\n");
+        printf("8 - Pesquisar por classificacao etaria\n");
+        printf("9 - Ver conteudo mais visualizado\n");
         printf("0 - Sair\n");
-        printf("Escolha uma opção: ");
+        printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
         getchar(); // limpar o \n do buffer
 
@@ -64,12 +64,12 @@ int main()
             printf("A guardar dados e a sair...\n");
             break;
         default:
-            printf("Opção inválida.\n");
+            printf("Opcao invalida.\n");
         }
 
     } while (opcao != 0);
 
-    // Gravação final dos conteúdos no ficheiro CSV
+    // Gravação final dos conteudos no ficheiro CSV
     gravarConteudosCSV(FICHEIRO_CSV, lista, numConteudos);
 
     // Libertar memória alocada dinamicamente
