@@ -20,8 +20,16 @@ void limparString(char *original, char *limpa)
 // Função para verificar se uma string é palíndromo
 int ehPalindromo(char str[])
 {
+    int len = strlen(str);
+    
+    // Verificar se a string é válida
+    if (len <= 0)
+    {
+        return 1; // String vazia é considerada palíndromo
+    }
+    
     int inicio = 0;
-    int fim = strlen(str) - 1;
+    int fim = len - 1;
 
     while (inicio < fim)
     {
