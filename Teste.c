@@ -1,28 +1,27 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-int main ()
+int main()
 {
-    int size;
-    int i;
+    int num;
+    int pow;
+    
 
-    printf("Digite o tamanho do vetor: \n");
-    scanf("%d", &size);
+    printf("Indique o número:");
+    scanf("%d", &num);
+    printf("Indique a potência:");
+    scanf("%d", &pow);
 
-    int *arr = malloc(size * sizeof(int));
+    long long int resultado = 1;
+    int tempPow = pow;
 
-    printf("Digite %d numeros: \n", size);
-
-    for(i = 0; i < size; i++)
+    while (pow > 0)
     {
-        scanf("%d", &arr[i]);
-    }
-    printf("Indicou: \n");
-    for(i = 0; i < size; i++)
-    {
-        printf("%d \n", arr[i]);
+        
+        resultado *= num;
+        pow--;
     }
 
-    free (arr);
+    printf("%d elevado a %d = %lld\n", num, tempPow, resultado);
 
-}
+    return 0;
+}   
