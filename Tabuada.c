@@ -6,7 +6,7 @@ int main ()
     int i;
     int produto;
 
-    printf("Insira um número: \n");
+    printf("Insira um  número: \n");
     scanf("%d", &num);
 
     for(i = 1; i <= 10; i++)
@@ -16,4 +16,3 @@ int main ()
     }
 
 }
-//
