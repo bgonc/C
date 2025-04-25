@@ -25,4 +25,5 @@ int main()
     printf("%d elevado a %d = %lld\n", num, tempPow, resultado);
 
     return 0;
-}   
+}
+// mais um teste
