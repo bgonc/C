@@ -9,7 +9,7 @@ int main()
 
     printf("Indique o número:");
     scanf("%d", &num);
-    printf("Indique a potência:");
+    printf("Indique potência:");
     scanf("%d", &pow);
 
     long long int resultado = 1;
