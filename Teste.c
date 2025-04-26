@@ -17,7 +17,7 @@ int main()
 
     while (pow > 0)
     {
-        
+   
         resultado *= num;
         pow--;
     }
