@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+//tabuada
 int main ()
 {
     int num;
