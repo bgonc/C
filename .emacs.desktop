@@ -1,0 +1,31 @@
+;; -*- mode: emacs-lisp; lexical-binding:t; coding: utf-8-emacs; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Fri Apr 25 22:02:34 2025
+;; Desktop file format version 208
+;; Emacs version 30.1
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (26635 56394 275134 127000) (desktop . "208") "bruno@fedora" nil nil ((((minibuffer . t) (undecorated) (override-redirect) (font . "-UKWN-Adwaita Mono-regular-normal-normal-*-15-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 0) (child-frame-border-width) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "#bbc2cf") (background-color . "#282c34") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tab-bar-lines . 0) (tool-bar-lines . 1) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 16) (alpha) (alpha-background) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "#51afef") (font-parameter) (environment) (sticky) (last-focus-update . t) (frameset--id . "393E-9BBA-A0F2-4D8A") (frameset--mini t . t) (height . 47) (width . 209) (modeline . t) (unsplittable) (left . 0) (top . 0) (icon-name) (display . "wayland-0") (explicit-name)) ((min-height . 8) (min-width . 39) (min-height-ignore . 4) (min-width-ignore . 12) (min-height-safe . 2) (min-width-safe . 4) (min-pixel-height . 160) (min-pixel-width . 351) (min-pixel-height-ignore . 80) (min-pixel-width-ignore . 108) (min-pixel-height-safe . 40) (min-pixel-width-safe . 36)) hc (pixel-width . 1920) (pixel-height . 923) (total-width . 213) (total-height . 46) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 261) (pixel-height . 923) (total-width . 29) (total-height . 46) (normal-height . 1.0) (normal-width . 0.27358490566037735) (parameters (window-side . left) (window-slot . 0)) (buffer " *NeoTree*" (selected) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 2 t nil 0 t nil) (vscroll . 0) (dedicated . t) (point . 114) (start . 1))) (vc (last . t) (pixel-width . 1659) (pixel-height . 923) (total-width . 184) (total-height . 46) (normal-height . 1.0) (normal-width . 0.7264150943396227) (combination-limit . t) (leaf (pixel-width . 1659) (pixel-height . 841) (total-width . 184) (total-height . 42) (normal-height . 0.9117009750812568) (normal-width . 1.0) (buffer "Tabuada.c" (selected . t) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 2 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 165) (start . 1)) (prev-buffers ("*scratch*" 1 148))) (leaf (last . t) (pixel-width . 1659) (pixel-height . 82) (total-width . 184) (total-height . 4) (normal-height . 0.08829902491874325) (normal-width . 1.0) (buffer "*Warnings*" (selected) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 2 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 1) (start . 1))))))])
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring nil)
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq file-name-history '("/home/bruno/GitHub/Linux/C"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 208
+  "/home/bruno/GitHub/Linux/C/Tabuada.c"
+  "Tabuada.c"
+  'c-mode
+  '(font-lock-mode company-box-mode company-mode yas-minor-mode flycheck-mode auto-revert-mode copilot-mode)
+  165
+  '(165 nil)
+  nil
+  nil
+  '((buffer-display-time 26635 56384 400689 94000) (buffer-file-coding-system . utf-8-unix))
+  '((mark-ring nil)))
+
