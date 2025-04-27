@@ -62,6 +62,4 @@ C-c g - Abre magit
 s - stage
 c c - abre janela de mensagem - C-c C-c - sai da janela
 P - p - push staged
-
-teste
-
+		
