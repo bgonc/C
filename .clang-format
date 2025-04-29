@@ -1,0 +1,21 @@
+# Create or edit ~/GitHub/Linux/C/.clang-format
+# Add these lines:
+#---
+#Language: Cpp # Or C, doesn't matter much for these options
+#BasedOnStyle: LLVM # Start with a base style
+#BreakBeforeBraces: Allman
+#IndentWidth: 4
+#TabWidth: 4
+#UseTab: Never
+#ColumnLimit: 0 # Or your preferred limit
+#---
+
+---
+Language: Cpp
+BasedOnStyle: LLVM
+BreakBeforeBraces: Attach # Changed from Allman
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 0
+---
