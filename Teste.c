@@ -1,36 +1,22 @@
 #include <stdio.h>
-// teste de commit
 
-void teste() {
-    printf("ddddd");
-}
-
-long long int power(int n, int p) {
-    long long int resultado = 1;
-  
-    while (p > 0) {
-	resultado *= n;
-	p--;
-    }
-    return resultado;
-}
-
-void ImprimirNome(int num, int pow) {
-    printf("%d, %d", fun, fow);
-}
+#define COUNT 5
 
 int main() {
-    int num;
-    int pow;
-    int total;
-  
-    printf("Indique o número:");
-    scanf("%d", &num);
-    printf("Indique a potência:");
-    scanf("%d", &pow);
 
-    printf("%d elevado a %d = %lld\n", num, pow, power(num, pow));
+    int values[COUNT] = {5, 10, 15, 20, 25};
+    int totalSum = 0;
+
+    float averageValue;
+
+    for (int i = 0; i < COUNT; i++) {
+        totalSum += values[i];
+    }
+    printf("Sum: %d\n", totalSum);
+
+    averageValue = (float)totalSum / COUNT;
+
+    printf("Average: %.2f\n", averageValue);
 
     return 0;
 }
-// mais um teste
