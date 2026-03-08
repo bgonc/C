@@ -15,8 +15,6 @@ Written during studies at [Universidade Aberta](https://www.uab.pt) (UAb) and th
 | `LabWeb/` | Web lab work — HTML & CSS fundamentals |
 | `Python/` | Early Python experiments |
 
-Loose files at the root (`Tabuada.c`, `Teste.c`) are standalone experiments.
-
 ---
 
 ## Topics Covered
@@ -29,12 +27,6 @@ Loose files at the root (`Tabuada.c`, `Teste.c`) are standalone experiments.
 - String manipulation
 - Random number generation
 - Structs and dynamic memory
-
----
-
-## Notes
-
-`emacs-shortcuts.txt` — personal Emacs keybinding reference used during development.
 
 ---
 
