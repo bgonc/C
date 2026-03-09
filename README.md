@@ -38,4 +38,4 @@ MIT — see [LICENSE](LICENSE) for details.
 
 ## Author
 
-[Bruno Goncalves](https://bgonc.github.io) · [github.com/bgonc](https://github.com/bgonc)
+[Bruno Goncalves](https://bgonc.codeberg.page) · [github.com/bgonc](https://codeberg.org/bgonc)
