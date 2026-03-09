@@ -1,7 +1,7 @@
 # C Programming Studies
 
-Academic coursework and self-study exercises in C, organized by course and topic.
-Written during studies at [Universidade Aberta](https://www.uab.pt) (UAb) and through independent practice.
+Coursework and exercises from my IT studies at [Universidade Aberta](https://www.uab.pt) (UAb), plus some independent practice on the side.  
+This is a learning repo — not polished production code, just me working through the basics.
 
 ---
 
@@ -19,14 +19,20 @@ Written during studies at [Universidade Aberta](https://www.uab.pt) (UAb) and th
 
 ## Topics Covered
 
-- Variables, data types, control flow
-- Functions, recursion
+- Variables, data types, and control flow
+- Functions and recursion
 - Arrays and pointers
 - File I/O
 - Sorting algorithms (merge sort, binary search)
 - String manipulation
 - Random number generation
-- Structs and dynamic memory
+- Structs and dynamic memory allocation
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE) for details.
 
 ---
 
